@@ -28,7 +28,7 @@ git clone https://github.com/Gabrpimenta/background-color-generator.git
 ### **Step 2: Navigate to the project folder**
 
 ```bash
-cd color-history-app
+cd background-color-generator
 ```
 
 ### **Step 3: Install dependencies**
