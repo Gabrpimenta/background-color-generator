@@ -1,20 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react'
+import {
+  Animated,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+} from 'react-native'
+import CenterText from './src/components/CenterText'
+import BottomSection from './src/components/BottomSection'
+import { styles } from './src/styles/styles'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const generateRandomColor = (): string => {
+  const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
+    Math.random() * 256,
+  )}, ${Math.floor(Math.random() * 256)})`
+  return randomColor
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App: React.FC = () => {
+  const [backgroundColor, setBackgroundColor] =
+    useState<string>('rgb(255, 255, 255)')
+  const [colorHistory, setColorHistory] = useState<string[]>([])
+  const [isDarkTheme, setIsDarkTheme] = useState(false)
+  const animatedColor = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    setBackgroundColor('rgb(255, 255, 255)')
+  }, [])
+
+  const handlePress = () => {
+    const newColor = generateRandomColor()
+    setBackgroundColor(newColor)
+    setColorHistory((prev) => [newColor, ...prev])
+
+    Animated.timing(animatedColor, {
+      toValue: Math.random(),
+      duration: 500,
+      useNativeDriver: false,
+    }).start()
+  }
+
+  const resetBackgroundColor = () => {
+    setBackgroundColor('rgb(255, 255, 255)')
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={handlePress}>
+      <View style={[styles.container, { backgroundColor }]}>
+        <CenterText text="Hello there" isDarkTheme={isDarkTheme} />
+        <BottomSection
+          isDarkTheme={isDarkTheme}
+          setIsDarkTheme={setIsDarkTheme}
+          resetBackgroundColor={resetBackgroundColor}
+          colorHistory={colorHistory}
+        />
+      </View>
+    </TouchableWithoutFeedback>
+  )
+}
+
+export default App
