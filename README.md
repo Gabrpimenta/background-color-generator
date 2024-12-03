@@ -22,7 +22,7 @@ To run this app on your local machine, follow these steps:
 ### **Step 1: Clone the repository**
 
 ```bash
-git clone https://github.com/gabrpimenta/background-color-generation.git
+git clone https://github.com/Gabrpimenta/background-color-generator.git
 ```
 
 ### **Step 2: Navigate to the project folder**
